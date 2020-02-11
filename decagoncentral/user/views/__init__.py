@@ -1,2 +1,2 @@
-from .user_details import UserDetail
-from .user_list import UserList
+from .user_login import UserLogin
+from .user_signup import UserSignup
