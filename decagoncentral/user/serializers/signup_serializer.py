@@ -6,4 +6,5 @@ class SignupSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserModel
         fields = ('fullname', 'username', 'email', 'password', 'position')
+        # extra_kwargs = {'password': {'write-only': True, 'required': True}}
 

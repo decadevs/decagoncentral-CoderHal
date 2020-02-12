@@ -4,6 +4,8 @@ from rest_framework import status
 from django.core.exceptions import ValidationError
 from rest_framework.response import Response
 
+import bcrypt
+
 from ..serializers import SignupSerializer 
 from ..models.user_model import UserModel
 
@@ -27,11 +29,17 @@ class UserSignup(APIView):
                 },
                 status = status.HTTP_400_BAD_REQUEST
             )
+        if UserModel.objects.filter(username=username).exists():
+            return Response(data={"message": "Username already taken!"})
+
+        # password.encode('utf-8')
+        # password = password.unicode('utf-8')
+        hashed_password = bcrypt.hashpw(password.unicode('utf-8'), bcrypt.gensalt(15))
         new_user = UserModel.objects.create(
             fullname = fullname,
             username = username,
             email = email,
-            password = password,
+            password = hashed_password,
             position = position
 
         )
